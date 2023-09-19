@@ -17,14 +17,18 @@ server.post('/ads', (req,res) => {
     const ad = req.body
     ads.push(ad)
     
-    res.json({ ad })
+    res.status(201).json({ ad })
 })
 
 //GET /ads:id
-server.get('/ads:id', (req,res) => {
+server.get('/ads/:id', (req,res) => {
     const id = parseInt(req.params.id)
     const ad = ads.find((ad) => ad.id === id)
-    res.json(ad)
+    if (!ad) {
+        res.sendStatus(404)
+    }
+
+    res.json({ ad })
 })
 
 // DELETE /ads/:id
