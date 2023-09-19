@@ -20,6 +20,16 @@ server.post('/ads', (req,res) => {
     res.json({ ad })
 })
 
+//GET /ads:id
+server.get('/ads:id', (req,res) => {
+    const id = parseInt(req.params.id)
+    const ad = ads.find((ad) => ad.id === id)
+    res.json(ad)
+})
+
+// DELETE /ads/:id
+//PUT /ads/:id
+
 const PORT = 4000
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`)
