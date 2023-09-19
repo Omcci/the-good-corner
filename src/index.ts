@@ -2,6 +2,7 @@ import express, { response } from "express"
 import { ads } from "./ads"
 
 const server = express()
+server.use(express.json()) 
 
 server.get("/", (req, res) => {
     res.send("Hello from Express server.")
@@ -13,7 +14,10 @@ server.get('/ads', (req,res) => {
 })
 // POST /ads
 server.post('/ads', (req,res) => {
-    res.send("Post is working")
+    const ad = req.body
+    ads.push(ad)
+    
+    res.json({ ad })
 })
 
 const PORT = 4000
