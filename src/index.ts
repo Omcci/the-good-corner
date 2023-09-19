@@ -1,6 +1,11 @@
-console.log('ça fonctionne')
+import express from "express"
 
-const getSum = (a:number, b: number): number => {
-    return a+b
-}
-console.log(getSum(2,4))
+const server = express()
+
+server.get("/", (req, res) => {
+    res.send("Hello from HTTP server.")
+})
+
+server.listen(4000, () => {
+    console.log("Server listening on port 4000")
+})
