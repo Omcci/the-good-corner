@@ -34,7 +34,7 @@ server.get('/ads/:id', (req,res) => {
 // DELETE /ads/:id
 //PUT /ads/:id
 
-const PORT = 4000
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`)
-})
+// const PORT = 4000
+// server.listen(PORT, () => {
+//     console.log(`Server listening on port ${PORT}`)
+// })
