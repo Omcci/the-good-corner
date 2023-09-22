@@ -8,7 +8,7 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn,
   } from "typeorm";
-//   import Category from "./category";
+  import Category from "./category";
 //   import Tag from "./tag";
   
   @Entity()
@@ -37,8 +37,8 @@ import {
     @CreateDateColumn()
     createdAd!: Date;
   
-    // @ManyToOne(() => Category, (category) => category.ads, { eager: true })
-    // category!: Category;
+    @ManyToOne(() => Category, (category) => category.ads, { eager: true })
+    category!: Category;
   
     // @JoinTable({ name: "TagsForAds" })
     // @ManyToMany(() => Tag, (tag) => tag.ads, { eager: true })
@@ -77,8 +77,8 @@ import {
     ): Promise<Ad> {
       const newAd = new Ad(adData);
       if (adData.category) {
-        // const category = await Category.getCategoryById(adData.category);
-        // newAd.category = category;
+        const category = await Category.getCategoryById(adData.category);
+        newAd.category = category;
       }
       const savedAd = await newAd.save();
       console.log(`New ad saved: ${savedAd.getStringRepresentation()}.`);
@@ -123,7 +123,7 @@ import {
     ): Promise<Ad> {
       const ad = await Ad.getAdById(id);
       if (partialAd.category) {
-        // await Category.getCategoryById(partialAd.category);
+        await Category.getCategoryById(partialAd.category);
       }
       await Ad.update(id, partialAd);
       await ad.reload();
