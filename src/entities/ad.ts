@@ -3,22 +3,16 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
     PrimaryGeneratedColumn,
   } from "typeorm";
-  
-  export type TypeAd = {
-    id: number;
-    title: string;
-    description?: string;
-    owner: string;
-    price?: number;
-    picture?: string;
-    location?: string;
-    createdAd?: Date;
-  };
+//   import Category from "./category";
+//   import Tag from "./tag";
   
   @Entity()
-  class Ad extends BaseEntity implements TypeAd {
+  class Ad extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
   
@@ -43,23 +37,104 @@ import {
     @CreateDateColumn()
     createdAd!: Date;
   
-    // constructor(id: number, title: string, description: string, owner: string) {
-    //   this.id = id;
-    //   this.title = title;
-    //   this.owner = owner;
-    //   this.description = description;
-    // }
+    // @ManyToOne(() => Category, (category) => category.ads, { eager: true })
+    // category!: Category;
   
-    // static getAllAds() {
-    //   // retourner toutes les annonces
-    // }
+    // @JoinTable({ name: "TagsForAds" })
+    // @ManyToMany(() => Tag, (tag) => tag.ads, { eager: true })
+    // tags!: Tag[];
   
-    // getShortDescriptionAndTitle() {
-    //   return `${this.title} - ${this.price} €`;
-    // }
+    constructor(ad?: Partial<Ad>) {
+      super();
+  
+      if (ad) {
+        if (!ad.title) {
+          throw new Error("Ad title cannot be empty.");
+        }
+        this.title = ad.title;
+  
+        if (!ad.owner) {
+          throw new Error("Ad owner cannot be empty.");
+        }
+        this.owner = ad.owner;
+        if (ad.description) {
+          this.description = ad.description;
+        }
+        if (ad.price) {
+          this.price = ad.price;
+        }
+        if (ad.picture) {
+          this.picture = ad.picture;
+        }
+        if (ad.location) {
+          this.location = ad.location;
+        }
+      }
+    }
+  
+    static async saveNewAd(
+      adData: Partial<Ad> & { category?: number }
+    ): Promise<Ad> {
+      const newAd = new Ad(adData);
+      if (adData.category) {
+        // const category = await Category.getCategoryById(adData.category);
+        // newAd.category = category;
+      }
+      const savedAd = await newAd.save();
+      console.log(`New ad saved: ${savedAd.getStringRepresentation()}.`);
+      return savedAd;
+    }
+  
+    static async getAds(): Promise<Ad[]> {
+      const ads = await Ad.find();
+      return ads;
+    }
+  
+    static async getAdById(id: number): Promise<Ad> {
+      const ad = await Ad.findOne({
+        where: { id },
+      });
+      if (!ad) {
+        throw new Error(`Ad with ID ${id} does not exist.`);
+      }
+      return ad;
+    }
+  
+    static async deleteAd(id: number): Promise<void> {
+      const { affected } = await Ad.delete(id);
+      if (affected === 0) {
+        throw new Error(`Ad with ID ${id} does not exist.`);
+      }
+    }
+  
+  
+    // static async updateAd(id: number, data :Partial<Ad>): Promise<Ad> {
+    //   const { affected } = await Ad.update(id, data);
+    //    if (!affected) {
+    //     throw new Error(`Ad with ID ${id} does not exist.`);
+    //   }
+    //   const ad = await Ad.getAdById(id)
+    //   return ad
+  
+  
+    static async updateAd(
+      id: number,
+      partialAd: Partial<Ad> & { category?: number }
+    ): Promise<Ad> {
+      const ad = await Ad.getAdById(id);
+      if (partialAd.category) {
+        // await Category.getCategoryById(partialAd.category);
+      }
+      await Ad.update(id, partialAd);
+      await ad.reload();
+      return ad;
+  
+    }
+  
+    getStringRepresentation(): string {
+      return `${this.id} | ${this.title} | ${this.owner} | ${this.price} €`;
+    }
   }
-  
-  // const voiture = new Ad(1, "Voiture", "", "Arnaud");
   
   export default Ad;
   
