@@ -9,7 +9,7 @@ import {
     PrimaryGeneratedColumn,
   } from "typeorm";
   import Category from "./category";
-//   import Tag from "./tag";
+  import Tag from "./tag";
   
   @Entity()
   class Ad extends BaseEntity {
@@ -40,9 +40,9 @@ import {
     @ManyToOne(() => Category, (category) => category.ads, { eager: true })
     category!: Category;
   
-    // @JoinTable({ name: "TagsForAds" })
-    // @ManyToMany(() => Tag, (tag) => tag.ads, { eager: true })
-    // tags!: Tag[];
+    @JoinTable({ name: "TagsForAds" })
+    @ManyToMany(() => Tag, (tag) => tag.ads, { eager: true })
+    tags!: Tag[];
   
     constructor(ad?: Partial<Ad>) {
       super();
