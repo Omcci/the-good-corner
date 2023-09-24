@@ -28,6 +28,14 @@ import {
         this.name = tag.name;
       }
     }
+
+    static async getTags(): Promise<Tag[]> {
+      const tags = await Tag.find();
+      return tags;
+    }
+
+    
+
   }
   
   export default Tag;
