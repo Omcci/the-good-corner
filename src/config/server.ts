@@ -4,6 +4,7 @@ const app = express();
 import { router as moduleRouter } from "../modules/index";
 import { dataSource } from "./database";
 import Category from "../entities/category";
+import Tag from "../entities/tag";
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +16,9 @@ app.listen(PORT, async () => {
   await Category.saveNewCategoryIfNotExisting({ name: "Automobile" });
   await Category.saveNewCategoryIfNotExisting({ name: "Habillement" });
   await Category.saveNewCategoryIfNotExisting({ name: "Autre" });
+  await Tag.saveNewTagIfNotExisting({ name: "Auto" });
+  await Tag.saveNewTagIfNotExisting({ name: "Fashion" });
+  await Tag.saveNewTagIfNotExisting({ name: "Autre" });
   console.log(`Server listening on port ${PORT}`);
 });
 
