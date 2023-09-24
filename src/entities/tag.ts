@@ -29,6 +29,26 @@ class Tag extends BaseEntity {
     }
   }
 
+  static async saveNewTagIfNotExisting(
+    tagData: Partial<Tag>
+  ): Promise<Tag> {
+    if (!tagData.name) {
+      throw new Error("Tag name cannot be empty.");
+    }
+    const existingTag = await Tag.getTagByName(
+      tagData.name
+    );
+    if (existingTag) {
+      return existingTag;
+    }
+    const newTag = new Tag(tagData);
+    const savedTag = await newTag.save();
+    console.log(
+      `New tag saved: ${savedTag.getStringRepresentation()}.`
+    );
+    return savedTag;
+  }
+
   static async getTags(): Promise<Tag[]> {
     const tags = await Tag.find();
     return tags;
@@ -39,6 +59,13 @@ class Tag extends BaseEntity {
     if (!tag) {
       throw new Error(`Tag with ID ${id} does not exist.`);
     }
+    return tag;
+  }
+
+  private static async getTagByName(
+    name: string
+  ): Promise<Tag | null> {
+    const tag = await Tag.findOneBy({ name });
     return tag;
   }
 
