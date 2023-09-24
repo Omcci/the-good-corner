@@ -17,6 +17,17 @@ import {
   
     @ManyToMany(() => Ad, (ad) => ad.tags)
     ads!: Ad[];
+
+    constructor(tag?: Partial<Tag>) {
+      super();
+  
+      if (tag) {
+        if (!tag.name) {
+          throw new Error("Tag name cannot be empty.");
+        }
+        this.name = tag.name;
+      }
+    }
   }
   
   export default Tag;
