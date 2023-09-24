@@ -3,6 +3,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    In,
     JoinTable,
     ManyToMany,
     ManyToOne,
@@ -73,12 +74,17 @@ import {
     }
   
     static async saveNewAd(
-      adData: Partial<Ad> & { category?: number }
+      adData: Partial<Ad> & { category?: number } & { tags?: number[] }
     ): Promise<Ad> {
       const newAd = new Ad(adData);
       if (adData.category) {
         const category = await Category.getCategoryById(adData.category);
         newAd.category = category;
+      }
+      if (adData.tags) {
+        const tagIds = adData.tags;
+        const tags = await Tag.find({ where: { id: In(tagIds) } });
+        newAd.tags = tags;
       }
       const savedAd = await newAd.save();
       console.log(`New ad saved: ${savedAd.getStringRepresentation()}.`);
@@ -86,7 +92,11 @@ import {
     }
   
     static async getAds(): Promise<Ad[]> {
-      const ads = await Ad.find();
+      const ads = await Ad.find({
+        // Il est possible de préciser les relations à charger avec l'option relations :
+        // relations: ["category", "tags"] // Ici, on charge les relations category et tags
+        // sinon on peut utiliser l'option eager: true pour charger toutes les relations qui se trouve en haut de la classe
+      });
       return ads;
     }
   
