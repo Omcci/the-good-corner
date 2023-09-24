@@ -34,7 +34,15 @@ import {
       return tags;
     }
 
-    
+    static async getTagById(id: number): Promise<Tag> {
+      const tag = await Tag.findOneBy({ id });
+      if (!tag) {
+        throw new Error(`Tag with ID ${id} does not exist.`);
+      }
+      return tag;
+    }
+  
+
 
   }
   
