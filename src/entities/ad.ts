@@ -82,9 +82,10 @@ import {
         newAd.category = category;
       }
       if (adData.tags) {
-        const tagIds = adData.tags;
-        const tags = await Tag.find({ where: { id: In(tagIds) } });
-        newAd.tags = tags;
+        // const tagIds = adData.tags;
+        // const tags = await Tag.find({ where: { id: In(tagIds) } });
+        // newAd.tags = tags;
+        newAd.tags = await Promise.all(adData.tags.map(Tag.getTagById));
       }
       const savedAd = await newAd.save();
       console.log(`New ad saved: ${savedAd.getStringRepresentation()}.`);
