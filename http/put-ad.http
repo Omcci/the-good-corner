@@ -3,5 +3,5 @@ Content-Type: application/json
 
 {
   "category": 3,
-  "tags": [1]
+  "tags": [1,5]
 }
