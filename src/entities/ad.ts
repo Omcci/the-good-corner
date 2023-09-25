@@ -130,13 +130,24 @@ import {
   
     static async updateAd(
       id: number,
-      partialAd: Partial<Ad> & { category?: number }
+      partialAd: Partial<Ad> & { category?: number, tags?: number[]}
     ): Promise<Ad> {
       const ad = await Ad.getAdById(id);
+      Object.assign(ad, partialAd); // On copie les propriétés de partialAd dans ad, 
+      // ce qui permet de ne pas avoir à faire une condition pour chaque propriété, 
+      // et de ne pas avoir à faire un save() à la fin.
+
       if (partialAd.category) {
         await Category.getCategoryById(partialAd.category);
       }
-      await Ad.update(id, partialAd);
+
+      if (partialAd.tags) {
+        ad.tags = await Promise.all(partialAd.tags.map(Tag.getTagById)); // On récupère les tags par leur id
+        // et on les assigne à l'annonce, en écrasant les tags existants, ici Tag.getTagById est une promesse,
+        // la fonction n'est pas exécutée tout de suite, mais on attend qu'elle se termine avant de continuer via await
+        // en effet, on ne peut pas assigner directement un tableau de promesses à ad.tags, il faut attendre que toutes les promesses soient résolues
+      }
+      await ad.save(); // ad.update() ne fonctionne pas avec les relations, il faut utiliser ad.save()
       await ad.reload();
       return ad;
   
