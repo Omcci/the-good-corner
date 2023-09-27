@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import Head from "next/head";
 
-// import Header from "../Header/Header";
+import Header from "../Header/Header";
 import { MainContent } from "./Layout.styled";
 
 export const CATEGORIES = [
@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <Header /> */}
+      <Header />
       <MainContent>{children}</MainContent>
     </>
   );
