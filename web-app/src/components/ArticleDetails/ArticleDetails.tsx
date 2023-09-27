@@ -2,7 +2,7 @@
 // import { MailIcon } from "../Icons/MailIcon";
 
 import * as styled from "./ArticleDetails.styled";
-// import { Separator } from "../Separator/Separator";
+import { Separator } from "../Separator/Separator";
 
 export default function Container() {
   return (
@@ -20,7 +20,7 @@ export default function Container() {
             adipisci, aliquam nulla unde quam architecto eligendi, voluptatum,
             perspiciatis laudantium sed eos voluptates?
           </div>
-          {/* <Separator /> */}
+          <Separator />
           <div>
             Annoncée publiée par <b>Serge</b> aujourd'hui (9:32).
           </div>
