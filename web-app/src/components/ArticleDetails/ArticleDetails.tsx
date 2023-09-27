@@ -1,5 +1,5 @@
 // import { ButtonLikeLink } from "../Link/ButtonLikeLink";
-// import { MailIcon } from "../Icons/MailIcon";
+import { MailIcon } from "../Icons/MailIcon";
 
 import * as styled from "./ArticleDetails.styled";
 import { Separator } from "../Separator/Separator";
