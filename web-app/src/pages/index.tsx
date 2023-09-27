@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-// import ArticleCard from "@/components/ArticleCard/ArticleCard";
-// import { CardGrid } from "@/components/CardGrid/CardGrid";
-// import { CheckboxLabel } from "../components/FormElements/CheckBoxLabel/CheckboxLabel";
-// import { PrimaryButton } from "@/components/Button/PrimaryButton";
-// import Modal from "@/components/Modal/Modal";
-// import { Article } from "@/types";
+import ArticleCard from "@/components/ArticleCard/ArticleCard";
+import { CardGrid } from "@/components/CardGrid/CardGrid";
+import { CheckboxLabel } from "../components/FormElements/CheckBoxLabel/CheckboxLabel";
+import { PrimaryButton } from "@/components/Button/PrimaryButton";
+import Modal from "@/components/Modal/Modal";
+import { Article } from "@/types";
 
 // const article = [
 //   {id : 1, title : "Table", price : 120, category : "Ameublement", image : "/images/table.webp"},
@@ -51,7 +51,7 @@ export default function Home() {
   const [currency, setCurrency] = useState<"EURO" | "DOLLAR">("EURO");
   // const [toggleModal, setToggleModal] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [articles, setArticles] = useState<Article[] | null>(null);
+  const [articles, setArticles] = useState<Article[] | null>(null);
 
   function toggleCurrency() {
     return setCurrency(currency === "EURO" ? "DOLLAR" : "EURO");
@@ -64,8 +64,8 @@ export default function Home() {
   useEffect(() => {
     const fetchAds = async () => {
       const response = await fetch("/api/ads");
-      // const { ads } = (await response.json()) as { ads: Article[] };
-      // setArticles(ads);
+      const { ads } = (await response.json()) as { ads: Article[] };
+      setArticles(ads);
     };
 
     fetchAds();
@@ -74,13 +74,13 @@ export default function Home() {
   return (
     <Container >
       <MainContentTitle>Annonces récentes</MainContentTitle>
-      {/* <CheckboxLabel>
+      <CheckboxLabel>
         <input type="checkbox" onChange={toggleCurrency} />
         Afficher les prix en dollars
-      </CheckboxLabel> */}
+      </CheckboxLabel>
       {/* // <PrimaryButton onClick={() => setToggleModal(true)}>Afficher la modale</PrimaryButton>
       // {toggleModal && <Modal setToggleModal={setToggleModal}>Confirmation </Modal>} */}
-      {/* <PrimaryButton onClick={toggleModal}>Afficher la modale</PrimaryButton>
+      <PrimaryButton onClick={toggleModal}>Afficher la modale</PrimaryButton>
       <CardGrid>
         {articles
           ? articles.map((article) => (
@@ -98,7 +98,7 @@ export default function Home() {
             ))
           : "Chargement des annonces…"}
       </CardGrid>
-      {isModalOpen && <Modal onClose={toggleModal}>Contenu de la modale</Modal>} */}
+      {isModalOpen && <Modal onClose={toggleModal}>Contenu de la modale</Modal>}
     </Container>
   );
 }
