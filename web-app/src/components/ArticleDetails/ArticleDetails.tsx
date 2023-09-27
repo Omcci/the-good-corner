@@ -1,4 +1,4 @@
-// import { ButtonLikeLink } from "../Link/ButtonLikeLink";
+import { ButtonLikeLink } from "../Link/ButtonLikeLink";
 import { MailIcon } from "../Icons/MailIcon";
 
 import * as styled from "./ArticleDetails.styled";
@@ -24,10 +24,10 @@ export default function Container() {
           <div>
             Annoncée publiée par <b>Serge</b> aujourd'hui (9:32).
           </div>
-          {/* <ButtonLikeLink href="mailto:serge@serge.com">
+          <ButtonLikeLink href="mailto:serge@serge.com">
             <MailIcon />
             Envoyer un email
-          </ButtonLikeLink> */}
+          </ButtonLikeLink>
         </styled.Info>
       </styled.Container>
     </>
