@@ -1,10 +1,10 @@
-// import { PrimaryButton } from "@/components/Button/PrimaryButton";
-// import { Form } from "@/components/FormElements/Form/Form";
-// import {
-//   FormLabelWithField,
-//   TextArea,
-//   TextField,
-// } from "@/components/FormElements/Input/Input";
+import { PrimaryButton } from "@/components/Button/PrimaryButton";
+import { Form } from "@/components/FormElements/Form/Form";
+import {
+  FormLabelWithField,
+  TextArea,
+  TextField,
+} from "@/components/FormElements/Input/Input";
 import React from "react";
 
 export default function PublishArticle() {
@@ -14,7 +14,7 @@ export default function PublishArticle() {
 
   return (
     <>
-      {/* <Form
+      <Form
         onSubmit={(event) => {
           event.preventDefault();
           createArticle();
@@ -41,7 +41,7 @@ export default function PublishArticle() {
           <TextField type="email" required />
         </FormLabelWithField>
         <PrimaryButton>Publier l'annonce</PrimaryButton>
-      </Form> */}
+      </Form>
     </>
   );
 }
