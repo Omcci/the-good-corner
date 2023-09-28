@@ -2,8 +2,6 @@ import express from "express";
 const app = express();
 import { router as moduleRouter } from "../modules/index";
 import Category from "../entities/category";
-import Tag from "../entities/tag";
-import Ad from "../entities/ad";
 import { dataSource } from "./database";
 import cors from "cors";
 
@@ -11,8 +9,6 @@ export const server = express();
 
 app.use(express.json());
 app.use(cors({origin: "http://localhost:3000"}))
-app.use(express.json());
-
 // app.use("/api", moduleRouter);
 
 const PORT = 4000;
