@@ -41,6 +41,10 @@ export const CategoriesNavigation = styled.nav`
   white-space: nowrap;
   overflow-x: scroll;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   @media screen and (min-width: 720px) {
     padding-top: 14px;
     display: flex;
