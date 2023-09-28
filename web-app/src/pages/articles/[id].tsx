@@ -1,27 +1,69 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+
+// import { removeQueryParameter } from "@/utils";
+import { Article } from "@/types";
+import Modal from "@/components/Modal/Modal";
+import { PrimaryButton } from "@/components/Button/PrimaryButton";
 import ArticleDetails from "@/components/ArticleDetails/ArticleDetails";
-import { useParams } from "next/navigation";
+// import Loader from "@/components/Loader/Loader";
 
-// const svg = (<svg
-//   aria-hidden="true"
-//   width="16"
-//   height="16"
-//   viewBox="0 0 32 32"
-//   xmlns="http://www.w3.org/2000/svg"
-//   className="styled__BaseIcon-sc-1jsm4qr-0 llmHhT"
-//   stroke="currentcolor"
-//   strokeWidth="2.5"
-//   fill="none"
-// >
-//   <path d="M25 4H7a5 5 0 0 0-5 5v14a5 5 0 0 0 5 5h18a5 5 0 0 0 5-5V9a5 5 0 0 0-5-5ZM7 6h18a3 3 0 0 1 2.4 1.22s0 0-.08 0L18 15.79a3 3 0 0 1-4.06 0L4.68 7.26H4.6A3 3 0 0 1 7 6Zm18 20H7a3 3 0 0 1-3-3V9.36l8.62 7.9a5 5 0 0 0 6.76 0L28 9.36V23a3 3 0 0 1-3 3Z"></path>
-// </svg>)
+const AlertBox = styled.div`
+  padding: 8px;
+  display: grid;
+  gap: 8px;
+`;
 
-export default function Article() {
-  const params = useParams();
-  const id = params?.id;
+export default function ArticlePage() {
+  const router = useRouter();
+  const { id, publishConfirmation } = router.query as {
+    id: string;
+    publishConfirmation: string | undefined;
+  };
 
-  if (!id) {
-    return "Loading…";
-  }
+  const [article, setArticle] = useState<Article | null>(null);
+  const [showPublishConfirmation, setShowPublishConfirmation] = useState(false);
 
-  return <ArticleDetails />;
+  const showModal = () => {
+    setShowPublishConfirmation(true);
+  };
+  const hideModal = () => {
+    setShowPublishConfirmation(false);
+  };
+
+  useEffect(() => {
+    if (publishConfirmation) {
+      showModal();
+      // removeQueryParameter("publishConfirmation");
+    }
+  }, [publishConfirmation]);
+
+  useEffect(() => {
+    const fetchAd = async (articleId: string) => {
+      const response = await fetch(`/api/ads/${articleId}`);
+      const { ad } = (await response.json()) as { ad: Article };
+      setArticle(ad);
+    };
+
+    if (id) {
+      fetchAd(id);
+    }
+  }, [id]);
+
+  return article ? (
+    <>
+      <ArticleDetails {...article} />
+      {showPublishConfirmation && (
+        <Modal onClose={hideModal}>
+          <AlertBox>
+            L'article {article.title} a bien été créé.
+            <PrimaryButton onClick={hideModal}>OK</PrimaryButton>
+          </AlertBox>
+        </Modal>
+      )}
+    </>
+  ) : (
+    <Loader global />
+  );
 }
