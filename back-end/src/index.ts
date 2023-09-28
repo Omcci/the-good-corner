@@ -39,23 +39,17 @@
 //     console.log(`Server listening on port ${PORT}`)
 // })
 
-import express from "express";
-import { DataSource } from "typeorm";
 
+import express from "express"
 import Ad from "./entities/ad";
 import { isError } from "./utils";
 import Category from "./entities/category";
 import Tag from "./entities/tag";
+import { server } from "./config/server";
+import cors from "cors";
 
-const dataSource = new DataSource({
-  type: "sqlite",
-  database: "db.sqlite",
-  entities: [Ad, Category, Tag],
-  synchronize: true,
-});
-
-const server = express();
 server.use(express.json());
+server.use(cors({origin: "http://localhost:3000"}))
 
 // Hello world
 server.get("/", (request, response) => {

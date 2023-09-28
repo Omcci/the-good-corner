@@ -1,10 +1,22 @@
 import express from "express";
-import cors from "cors";
+import { DataSource } from "typeorm";
 const app = express();
 import { router as moduleRouter } from "../modules/index";
-import { dataSource } from "./database";
 import Category from "../entities/category";
 import Tag from "../entities/tag";
+import Ad from "../entities/ad";
+
+
+const dataSource = new DataSource({
+  type: "sqlite",
+  database: "db.sqlite",
+  entities: [Ad, Category, Tag],
+  synchronize: true,
+});
+
+export const server = express();
+
+
 
 
 app.use(express.json());
