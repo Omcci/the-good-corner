@@ -2,12 +2,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-// import { removeQueryParameter } from "@/utils";
+import { removeQueryParameter } from "@/utils";
 import { Article } from "@/types";
 import Modal from "@/components/Modal/Modal";
 import { PrimaryButton } from "@/components/Button/PrimaryButton";
 import ArticleDetails from "@/components/ArticleDetails/ArticleDetails";
-// import Loader from "@/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 
 const AlertBox = styled.div`
   padding: 8px;
@@ -35,7 +35,7 @@ export default function ArticlePage() {
   useEffect(() => {
     if (publishConfirmation) {
       showModal();
-      // removeQueryParameter("publishConfirmation");
+      removeQueryParameter("publishConfirmation");
     }
   }, [publishConfirmation]);
 
