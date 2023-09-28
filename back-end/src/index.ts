@@ -46,10 +46,8 @@ import { isError } from "./utils";
 import Category from "./entities/category";
 import Tag from "./entities/tag";
 import { server } from "./config/server";
-import cors from "cors";
 
-server.use(express.json());
-server.use(cors({origin: "http://localhost:3000"}))
+
 
 // Hello world
 server.get("/", (request, response) => {
