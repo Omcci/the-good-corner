@@ -6,6 +6,7 @@ import { CheckboxLabel } from "../components/FormElements/CheckBoxLabel/Checkbox
 import { PrimaryButton } from "@/components/Button/PrimaryButton";
 import Modal from "@/components/Modal/Modal";
 import { Article } from "@/types";
+import Loader from "@/components/Loader/Loader";
 
 // const article = [
 //   {id : 1, title : "Table", price : 120, category : "Ameublement", image : "/images/table.webp"},
@@ -96,7 +97,7 @@ export default function Home() {
                 currency={currency}
               />
             ))
-          : "Chargement des annonces…"}
+          : <div> <p>"Chargement des annonces…"</p><Loader/></div>}
       </CardGrid>
       {isModalOpen && <Modal onClose={toggleModal}>Contenu de la modale</Modal>}
     </Container>
