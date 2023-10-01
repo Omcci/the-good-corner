@@ -29,24 +29,39 @@ class Tag extends BaseEntity {
     }
   }
 
-  static async saveNewTagIfNotExisting(
-    tagData: Partial<Tag>
-  ): Promise<Tag> {
+  // static async saveNewTagIfNotExisting(
+  //   tagData: Partial<Tag>
+  // ): Promise<Tag> {
+  //   if (!tagData.name) {
+  //     throw new Error("Tag name cannot be empty.");
+  //   }
+  //   const existingTag = await Tag.getTagByName(
+  //     tagData.name
+  //   );
+  //   if (existingTag) {
+  //     // return existingTag;
+  //     throw Error(`Tag with name "${tagData.name}" already exists.`);
+  //   }
+  //   const newTag = new Tag(tagData);
+  //   const savedTag = await newTag.save();
+  //   console.log(
+  //     `New tag saved: ${savedTag.getStringRepresentation()}.`
+  //   );
+  //   return savedTag;
+  // }
+
+
+  static async saveNewTag(tagData: Partial<Tag>): Promise<Tag> {
     if (!tagData.name) {
       throw new Error("Tag name cannot be empty.");
     }
-    const existingTag = await Tag.getTagByName(
-      tagData.name
-    );
+    const existingTag = await Tag.getTagByName(tagData.name);
     if (existingTag) {
-      // return existingTag;
       throw Error(`Tag with name "${tagData.name}" already exists.`);
     }
     const newTag = new Tag(tagData);
     const savedTag = await newTag.save();
-    console.log(
-      `New tag saved: ${savedTag.getStringRepresentation()}.`
-    );
+    console.log(`New tag saved: ${savedTag.getStringRepresentation()}.`);
     return savedTag;
   }
 
