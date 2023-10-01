@@ -9,13 +9,13 @@ export default function ArticleCard({
   title,
   price,
   // convert
-  currency,
+  currency = "EURO",
 }: {
   id: number;
   title: string;
   price: number;
   // convert: boolean
-  currency: "EURO" | "DOLLAR";
+  currency?: "EURO" | "DOLLAR";
 }) {
   return (
     <styled.Container>
