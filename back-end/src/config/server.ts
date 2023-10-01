@@ -1,5 +1,4 @@
 import express from "express";
-const app = express();
 import { router as moduleRouter } from "../modules/index";
 import Category from "../entities/category";
 import { dataSource } from "./database";
@@ -7,12 +6,12 @@ import cors from "cors";
 
 export const server = express();
 
-app.use(express.json());
-app.use(cors({origin: "http://localhost:3000"}))
+server.use(express.json());
+server.use(cors({origin: "http://localhost:3000"}))
 // app.use("/api", moduleRouter);
 
 const PORT = 4000;
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
     try {
       await dataSource.initialize();
       await Category.saveNewCategoryIfNotExisting({ id: 1, name: "Ameublement" });
@@ -37,4 +36,3 @@ app.listen(PORT, async () => {
       console.error("An error occurred:", error);
     }
   });
-export { app };
