@@ -7,6 +7,8 @@ import { PrimaryButton } from "@/components/Button/PrimaryButton";
 import Modal from "@/components/Modal/Modal";
 import { Article } from "@/types";
 import Loader from "@/components/Loader/Loader";
+import { PageContainer } from "@/components/PageContainer/PageContainer";
+import { MainContentTitle } from "@/components/MainContentTitle/MainContentTitle";
 
 // const article = [
 //   {id : 1, title : "Table", price : 120, category : "Ameublement", image : "/images/table.webp"},
@@ -31,15 +33,6 @@ import Loader from "@/components/Loader/Loader";
 //       <h2>Annonces récentes</h2>
 //       <input type="checkbox" onClick={handleConvert} />
 const DOLLAR_IN_EURO = 1.06;
-
-const Container = styled.div`
-  display: grid;
-  gap: 12px;
-`;
-
-const MainContentTitle = styled.h2`
-  margin: 0 0 4px;
-`;
 
 // type Ad = {
 //   id: number;
@@ -73,7 +66,7 @@ export default function Home() {
   }, []);
 
   return (
-    <Container >
+    <PageContainer>
       <MainContentTitle>Annonces récentes</MainContentTitle>
       <CheckboxLabel>
         <input type="checkbox" onChange={toggleCurrency} />
@@ -81,25 +74,26 @@ export default function Home() {
       </CheckboxLabel>
       {/* // <PrimaryButton onClick={() => setToggleModal(true)}>Afficher la modale</PrimaryButton>
       // {toggleModal && <Modal setToggleModal={setToggleModal}>Confirmation </Modal>} */}
-      <PrimaryButton onClick={toggleModal}>Afficher la modale</PrimaryButton>
       <CardGrid>
-        {articles
-          ? articles.map((article) => (
-              <ArticleCard
-                key={article.id}
-                id={article.id}
-                title={article.title}
-                price={
-                  currency === "EURO"
-                    ? article.price
-                    : article.price * DOLLAR_IN_EURO
-                }
-                currency={currency}
-              />
-            ))
-          : <div> <p>"Chargement des annonces…"</p><Loader/></div>}
+        {articles ? (
+          articles.map((article) => (
+            <ArticleCard
+              key={article.id}
+              id={article.id}
+              title={article.title}
+              price={
+                currency === "EURO"
+                  ? article.price
+                  : article.price * DOLLAR_IN_EURO
+              }
+              currency={currency}
+            />
+          ))
+        ) : (
+          <Loader global />
+        )}
       </CardGrid>
       {isModalOpen && <Modal onClose={toggleModal}>Contenu de la modale</Modal>}
-    </Container>
+    </PageContainer>
   );
 }
