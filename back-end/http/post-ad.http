@@ -9,5 +9,5 @@ Content-Type: application/json
   "picture": "",
   "location": "Paris",
   "category": 3,
-  "tags": [4,6]
+  "tags": [1]
 }

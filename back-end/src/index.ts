@@ -56,15 +56,24 @@ server.get("/", (request, response) => {
 
 // GET /ads
 server.get("/ads", async (request, response) => {
-  const ads = await Ad.getAds();
+  const { query } = request;
+  const ads = await Ad.getAds(
+    query.category ? parseInt(query.category as string) : undefined
+  );
   return response.json({ ads });
 });
 
 // POST /ads
 server.post("/ads", async (request, response) => {
   const adData = request.body;
-  const savedAd = await Ad.saveNewAd(adData);
-  return response.status(201).json({ ad: savedAd });
+  try {
+    const savedAd = await Ad.saveNewAd(adData);
+    return response.status(201).json({ ad: savedAd });
+  } catch (error) {
+    if (isError(error)) {
+      return response.status(400).json({ error: error.message });
+    }
+  }
 });
 
 // GET /ads/:id
@@ -230,7 +239,7 @@ server.get("/tags", async (request, response) => {
 server.post("/tags", async (request, response) => {
   const tagData = request.body;
   try {
-    const savedTag = await Tag.saveNewTagIfNotExisting(tagData);
+    const savedTag = await Tag.saveNewTag(tagData);
     return response.status(201).json({ tag: savedTag });
   } catch (error) {
     if (isError(error)) {
