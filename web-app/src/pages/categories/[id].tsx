@@ -2,6 +2,7 @@ import ArticleCard from "@/components/ArticleCard/ArticleCard";
 import { CardGrid } from "@/components/CardGrid/CardGrid";
 import { CATEGORIES } from "@/components/Layout/Layout";
 import Loader from "@/components/Loader/Loader";
+import { MainContentTitle } from "@/components/MainContentTitle/MainContentTitle";
 import { PageContainer } from "@/components/PageContainer/PageContainer";
 import { Article } from "@/types";
 import { useParams } from "next/navigation";
@@ -32,7 +33,7 @@ export default function Category() {
 
   return (
     <PageContainer>
-      <h1>{category.name}</h1>
+      <MainContentTitle>{category.name} – Annonces récentes</MainContentTitle>
       <CardGrid>
         {articles ? (
           articles.map((article) => (
